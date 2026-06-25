@@ -1,0 +1,23 @@
+pandas>=2.0
+openpyxl>=3.1
+requests>=2.31
+beautifulsoup4>=4.12
+lxml>=4.9
+tqdm>=4.66
+
+# 7B 学生模型下载
+modelscope>=1.16
+
+# SFT 训练
+# ⚠️ transformers 必须锁在 4.x：v5 的 generate 路径对 deepseek-llm-7b-chat(2023, llama)
+#    这类老模型有兼容 bug，会导致推理时生成坍塌（输出乱码数字）。务必不要装 v5。
+torch>=2.1
+transformers>=4.46,<4.49
+peft>=0.11,<0.14
+accelerate>=0.30,<1.2
+safetensors>=0.4
+sentencepiece>=0.2
+einops>=0.7
+
+# RL 阶段（RFT / DPO / GRPO）：刻意不依赖 trl/vllm，全部手写在 transformers+peft+torch 上，
+# 打分器只用标准库 re/difflib。因此 RL 不需要任何额外依赖，避免版本咬合导致的崩溃。

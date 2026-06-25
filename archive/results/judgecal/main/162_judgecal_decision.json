@@ -1,0 +1,112 @@
+{
+  "sigma": 0.5477242606976913,
+  "rec_k": 1,
+  "spearman": 0.9543946303353353,
+  "all_levels_separable": false,
+  "flat_spans": [
+    "没抄~抄3句",
+    "抄4句~完全照抄"
+  ],
+  "legit_boundary_separable": false,
+  "level_stats": {
+    "0": {
+      "true_level": "没抄",
+      "anchor": 10,
+      "n_items": 13,
+      "kimi_mean": 7.336538461538462,
+      "kimi_sd": 1.930690058648488,
+      "kimi_min": 2.75,
+      "kimi_max": 9.875
+    },
+    "1": {
+      "true_level": "抄1句",
+      "anchor": 8,
+      "n_items": 13,
+      "kimi_mean": 4.644230769230769,
+      "kimi_sd": 1.6916200890392104,
+      "kimi_min": 2.0,
+      "kimi_max": 7.0
+    },
+    "2": {
+      "true_level": "抄2句",
+      "anchor": 6,
+      "n_items": 13,
+      "kimi_mean": 2.644230769230769,
+      "kimi_sd": 0.6225915131992182,
+      "kimi_min": 2.0,
+      "kimi_max": 3.625
+    },
+    "3": {
+      "true_level": "抄3句",
+      "anchor": 4,
+      "n_items": 13,
+      "kimi_mean": 1.8365384615384615,
+      "kimi_sd": 0.17218430793029862,
+      "kimi_min": 1.5,
+      "kimi_max": 2.0
+    },
+    "4": {
+      "true_level": "抄4句",
+      "anchor": 2,
+      "n_items": 13,
+      "kimi_mean": 0.03365384615384615,
+      "kimi_sd": 0.054816126206689325,
+      "kimi_min": 0.0,
+      "kimi_max": 0.125
+    },
+    "5": {
+      "true_level": "完全照抄",
+      "anchor": 0,
+      "n_items": 13,
+      "kimi_mean": 0.0,
+      "kimi_sd": 0.0,
+      "kimi_min": 0.0,
+      "kimi_max": 0.0
+    }
+  },
+  "adjacent": [
+    {
+      "lo_idx": 0,
+      "hi_idx": 1,
+      "lo": "没抄",
+      "hi": "抄1句",
+      "gap": 2.6923076923076925,
+      "sep": false
+    },
+    {
+      "lo_idx": 1,
+      "hi_idx": 2,
+      "lo": "抄1句",
+      "hi": "抄2句",
+      "gap": 2.0,
+      "sep": false
+    },
+    {
+      "lo_idx": 2,
+      "hi_idx": 3,
+      "lo": "抄2句",
+      "hi": "抄3句",
+      "gap": 0.8076923076923077,
+      "sep": false
+    },
+    {
+      "lo_idx": 3,
+      "hi_idx": 4,
+      "lo": "抄3句",
+      "hi": "抄4句",
+      "gap": 1.8028846153846152,
+      "sep": true
+    },
+    {
+      "lo_idx": 4,
+      "hi_idx": 5,
+      "lo": "抄4句",
+      "hi": "完全照抄",
+      "gap": 0.03365384615384615,
+      "sep": false
+    }
+  ],
+  "n_items": 78,
+  "n_outliers": 19,
+  "rule_rag_hits": 0
+}

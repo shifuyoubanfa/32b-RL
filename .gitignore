@@ -1,0 +1,43 @@
+# =====================================================================
+# 32b-RL .gitignore
+# 原则：干净最终代码(code/)、整合报告、历史归档(archive/)、14B 沙盒(sandbox-14b/)
+#       的可读文本与小图入库；所有大产物、公司数据、密钥环境一律本地保留不入库。
+# 注意：.gitignore 不支持行内注释，注释必须独占整行。
+# =====================================================================
+
+# ----- 实验产物 / 大目录（根锚定，避免误伤 archive/code_legacy/*）-----
+/runs/
+/output/
+/derag2/
+/derag_v4/
+/derag_v5_probe/
+/zhjg/
+/autodl_pkg/
+/logs/
+
+# ----- 数据文件（大 + 公司税务资产，绝不公开）-----
+# 含 V1 教师输出、改写池、rollout、judgecal 句集等
+*.jsonl
+*.xlsx
+# 公司样本与中间数据
+/code/data/
+# 14B 沙盒产物（若本地存在）
+/sandbox-14b/output/
+/sandbox-14b/data/
+/sandbox-14b/logs/
+
+# ----- 打包产物 -----
+*.zip
+
+# ----- 缓存 / 临时 -----
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+*.log
+
+# ----- 环境 / IDE / 本地 -----
+.claude/
+.vscode/
+.idea/
+.DS_Store

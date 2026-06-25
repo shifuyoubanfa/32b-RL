@@ -1,0 +1,60 @@
+#!/usr/bin/env bash
+# V2 DPO -> GRPO online continuation.
+set -euo pipefail
+
+export ZHJG_WORK_DIR="${ZHJG_WORK_DIR:-/home/nvme01/zhjg}"
+export ZHJG_OUTPUT_DIR="${ZHJG_OUTPUT_DIR:-$ZHJG_WORK_DIR/output}"
+export ZHJG_CKPT_DIR="${ZHJG_CKPT_DIR:-$ZHJG_WORK_DIR/ckpts}"
+export ZHJG_LOG_DIR="${ZHJG_LOG_DIR:-$ZHJG_WORK_DIR/logs}"
+export ZHJG_MODEL_DIR="${ZHJG_MODEL_DIR:-$ZHJG_WORK_DIR/models}"
+export ZHJG_ENV="${ZHJG_ENV:-/home/nvme02/conda/zhjg_rl}"
+export GRPO_ENV="${GRPO_ENV:-/home/nvme02/conda/grpo_env}"
+export VLLM_ENV="${VLLM_ENV:-/home/nvme02/biyh/vllm_env}"
+
+export V2_TAG="${V2_TAG:-derag2}"
+export V2_GRPO_LINEAGE="${V2_GRPO_LINEAGE:-2s-2s-2s}"
+export V2_GRPO_BASE_MODEL="${V2_GRPO_BASE_MODEL:-$ZHJG_MODEL_DIR/v2-dpo-2sigma-2s-2s-merged}"
+
+export GRPO_GPUS="${GRPO_GPUS:-0,1,2,3,4,5,6,7}"
+export VLLM_TP="${VLLM_TP:-8}"
+export VLLM_GPU_UTIL="${VLLM_GPU_UTIL:-0.5}"
+export VLLM_MAX_LEN="${VLLM_MAX_LEN:-6144}"
+export GRPO_K="${GRPO_K:-8}"
+export GRPO_PDBS="${GRPO_PDBS:-1}"
+export GRPO_GA="${GRPO_GA:-8}"
+export GRPO_MAX_COMPLETION="${GRPO_MAX_COMPLETION:-1536}"
+export GRPO_SAVE_STEPS="${GRPO_SAVE_STEPS:-25}"
+export GRPO_SAVE_TOTAL_LIMIT="${GRPO_SAVE_TOTAL_LIMIT:-8}"
+
+export V2_GRPO_WARMUP_STEPS="${V2_GRPO_WARMUP_STEPS:-30}"
+export V2_GRPO_MAIN_STEPS="${V2_GRPO_MAIN_STEPS:-90}"
+export V2_GRPO_WARMUP_LR="${V2_GRPO_WARMUP_LR:-7e-7}"
+export V2_GRPO_MAIN_LR="${V2_GRPO_MAIN_LR:-7e-7}"
+export V2_GRPO_WARMUP_BETA="${V2_GRPO_WARMUP_BETA:-0.08}"
+export V2_GRPO_MAIN_BETA="${V2_GRPO_MAIN_BETA:-0.06}"
+export V2_GRPO_REWARD_AUDIT="${V2_GRPO_REWARD_AUDIT:-1}"
+export V2_GRPO_REWARD_AUDIT_KIMI="${V2_GRPO_REWARD_AUDIT_KIMI:-0}"
+export V2_GRPO_KIMI_SMOKE="${V2_GRPO_KIMI_SMOKE:-1}"
+export V2_GRPO_SWIFT_SMOKE="${V2_GRPO_SWIFT_SMOKE:-1}"
+export GRPO_V2_KIMI_K="${GRPO_V2_KIMI_K:-2}"
+export GRPO_V2_KIMI_REQUIRED="${GRPO_V2_KIMI_REQUIRED:-1}"
+export GRPO_V2_KIMI_ON_RULE_FAIL="${GRPO_V2_KIMI_ON_RULE_FAIL:-0}"
+export GRPO_V2_KIMI_LOCK="${GRPO_V2_KIMI_LOCK:-1}"
+export GRPO_V2_KIMI_MIN_INTERVAL="${GRPO_V2_KIMI_MIN_INTERVAL:-0.0}"
+export KIMI_CACHE_MIN_K="${KIMI_CACHE_MIN_K:-2}"
+
+export V2_GRPO_EVAL_AFTER="${V2_GRPO_EVAL_AFTER:-1}"
+export VLLM_GPUS="${VLLM_GPUS:-0,1}"
+export VLLM_SERVE_GPU_UTIL="${VLLM_SERVE_GPU_UTIL:-0.88}"
+
+echo "===== V2 online GRPO ====="
+echo "base      : $V2_GRPO_BASE_MODEL"
+echo "lineage   : $V2_GRPO_LINEAGE"
+echo "preflight : reward_audit=$V2_GRPO_REWARD_AUDIT audit_kimi=$V2_GRPO_REWARD_AUDIT_KIMI kimi_smoke=$V2_GRPO_KIMI_SMOKE swift_smoke=$V2_GRPO_SWIFT_SMOKE"
+echo "warmup    : steps=$V2_GRPO_WARMUP_STEPS lr=$V2_GRPO_WARMUP_LR beta=$V2_GRPO_WARMUP_BETA reward=v2_rule_warmup"
+echo "online    : steps=$V2_GRPO_MAIN_STEPS lr=$V2_GRPO_MAIN_LR beta=$V2_GRPO_MAIN_BETA reward=v2_online K=$GRPO_K kimi_k=$GRPO_V2_KIMI_K"
+echo "kimi      : required=$GRPO_V2_KIMI_REQUIRED lock=$GRPO_V2_KIMI_LOCK min_interval=$GRPO_V2_KIMI_MIN_INTERVAL cache_min_k=$KIMI_CACHE_MIN_K"
+echo "train GPUs: $GRPO_GPUS  TP=$VLLM_TP  util=$VLLM_GPU_UTIL"
+echo "monitor   : bash scripts/monitor_v2_grpo_online.sh"
+
+exec "$ZHJG_ENV/bin/python" -X utf8 run_v2_grpo_online.py

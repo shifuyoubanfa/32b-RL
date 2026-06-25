@@ -1,0 +1,10 @@
+# 训练环境 zhjg_rl 已自带（克隆 hkl_swift）：torch 2.10+cu128 / swift 4.0.1 / trl 0.28 /
+# transformers 5.2 / peft 0.18.1 / accelerate 1.13。本文件只列 pipeline 脚本额外要用的轻依赖。
+# 推理环境 vllm_env 已自带 vLLM 0.20.1，独立进程，勿往 zhjg_rl 装 vllm。
+requests>=2.31
+openpyxl>=3.1
+pandas>=2.0
+numpy>=1.24
+scikit-learn>=1.3   # 探针 AUC（roc_auc_score）
+matplotlib>=3.7     # 画训练损失曲线（plot_loss.py；没装则回退 ASCII 曲线）
+tqdm>=4.65
